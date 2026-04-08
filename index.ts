@@ -7,6 +7,18 @@ Bun.serve({
   hostname: "0.0.0.0",
   routes: {
     "/": index,
+    "/manifest.json": {
+      GET: () => new Response(Bun.file("public/manifest.json")),
+    },
+    "/icon.svg": {
+      GET: () => new Response(Bun.file("public/icon.svg")),
+    },
+    "/sw.js": {
+      GET: () =>
+        new Response(Bun.file("public/sw.js"), {
+          headers: { "Content-Type": "application/javascript" },
+        }),
+    },
     "/api/type": {
       async POST(req) {
         const { text, mode } = (await req.json()) as {

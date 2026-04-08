@@ -5,9 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Whispr Bridge</title>
     <link rel="stylesheet" href="./styles.css" />
+    <meta name="theme-color" content="#0a0a0a" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="./app.tsx"></script>
+    <script>
+      // Inject manifest + icon links at runtime to avoid bundler resolution
+      const manifest = document.createElement("link");
+      manifest.rel = "manifest";
+      manifest.href = "/manifest.json";
+      document.head.appendChild(manifest);
+
+      const icon = document.createElement("link");
+      icon.rel = "icon";
+      icon.href = "/icon.svg";
+      icon.type = "image/svg+xml";
+      document.head.appendChild(icon);
+
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("/sw.js");
+      }
+    </script>
   </body>
 </html>
