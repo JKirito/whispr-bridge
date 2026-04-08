@@ -60,9 +60,29 @@ function App() {
 
   return (
     <div className="container">
-      <div className="header">
-        <h1>Whispr Bridge</h1>
-        <p>Dictate with WisprFlow, send to your desktop</p>
+      <div className="top-bar">
+        <div className="mode-toggle">
+          <button
+            className={mode === "type" ? "active" : ""}
+            onClick={() => setMode("type")}
+          >
+            Cursor
+          </button>
+          <button
+            className={mode === "clipboard" ? "active" : ""}
+            onClick={() => setMode("clipboard")}
+          >
+            Clipboard
+          </button>
+        </div>
+
+        <button
+          className={`send-btn ${sendState !== "idle" ? sendState : ""}`}
+          onClick={send}
+          disabled={!text.trim() || sendState === "sending"}
+        >
+          {buttonLabel}
+        </button>
       </div>
 
       <div className="textarea-wrap">
@@ -73,34 +93,11 @@ function App() {
           placeholder="Tap here and dictate with WisprFlow..."
           autoFocus
         />
-        <span className="char-count">{text.length}</span>
-      </div>
-
-      <div className="mode-toggle">
-        <button
-          className={mode === "type" ? "active" : ""}
-          onClick={() => setMode("type")}
-        >
-          Type at Cursor
-        </button>
-        <button
-          className={mode === "clipboard" ? "active" : ""}
-          onClick={() => setMode("clipboard")}
-        >
-          Clipboard
-        </button>
-      </div>
-
-      <button
-        className={`send-btn ${sendState !== "idle" ? sendState : ""}`}
-        onClick={send}
-        disabled={!text.trim() || sendState === "sending"}
-      >
-        {buttonLabel}
-      </button>
-
-      <div className={`status ${sendState === "success" ? "ok" : sendState === "error" ? "err" : ""}`}>
-        {statusMsg}
+        {statusMsg && (
+          <span className={`status ${sendState === "success" ? "ok" : sendState === "error" ? "err" : ""}`}>
+            {statusMsg}
+          </span>
+        )}
       </div>
     </div>
   );
